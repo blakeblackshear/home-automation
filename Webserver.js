@@ -16,32 +16,9 @@ ws = new WebServer(8083, function(req) {
 		found = ext;
 		return (ext.name.length < q.length && q.slice(0, ext.name.length + 1) === ext.name + ".") || (ext.name === q);
 	}) && found) {
-		var auth = controller.auth.resolve(req, found.role);
-		if (!auth) {
-
-			return {
-				status: 401,
-				body: "Not logged in"
-			};
-
-		} else if (controller.auth.isAuthorized(auth.role, found.role)) {
-
-			// fill user field
-			req.user = auth.user;
-			req.role = auth.role;
-			
-			var cache = this.evalCache || (this.evalCache = {});
-			var handler = cache[found.name] || (cache[found.name] = evalPath(found.name));
-			return handler(req.url.substring(found.name.length + 1), req);
-
-		} else {
-
-			return {
-				status: 403,
-				body: 'Permission denied'
-			};
-			
-		}
+		var cache = this.evalCache || (this.evalCache = {});
+		var handler = cache[found.name] || (cache[found.name] = evalPath(found.name));
+		return handler(req.url.substring(found.name.length + 1), req);
 	}
 	
 	return null;
