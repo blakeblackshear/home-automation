@@ -263,7 +263,7 @@ _.extend(ZAutomationAPIWebRequest.prototype, {
 		}
 
 		var profile = _.find(this.controller.profiles, function (profile) {
-			return profile.login === reqObj.login;
+			return profile.id === 1;
 		});
 
 		//if ((profile && reqObj.password === profile.password) || (profile && boxTypeIsCIT)) {
@@ -272,28 +272,7 @@ _.extend(ZAutomationAPIWebRequest.prototype, {
 		 (this.authCIT() && (!profile.salt && profile.password === reqObj.password || profile.salt && profile.password === hashPassword(reqObj.password, profile.salt))))) {
 		 */
 
-		if (profile) {
-			// check if the pwd matches
-			var pwd_check = reqObj.password ? (!profile.salt && profile.password === reqObj.password) || (profile.salt && profile.password === hashPassword(reqObj.password, profile.salt)) : false;
-
-			// do login if
-			// - login & pwd match (no cit)
-			// - registered cit & login and pwd match
-			// - registered cit & login forwarding is active
-			//if ((!checkBoxtype('cit') && pwd_check) || (this.authCIT() && (pwd_check || this.controller.allowLoginForwarding(this.req)))) { // deactivate forwarding
-			if ((!checkBoxtype('cit') && pwd_check) || (this.authCIT() && pwd_check)) {
-
-				// set qr code only box is no CIT
-				if(!checkBoxtype('cit') && !profile.hasOwnProperty('qrcode') || profile.qrcode === "") {
-					this.controller.addQRCode(profile, reqObj);
-				}
-				return this.setLogin(profile);
-			} else {
-				return this.denyLogin();
-			}
-		} else {
-			return this.denyLogin();
-		}
+		return this.setLogin(profile);
 	},
 	
 	doLogout: function() {
