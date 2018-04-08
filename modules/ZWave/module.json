@@ -18,6 +18,7 @@
 		"name": "zway",
 		"port": "/dev/ttyACM0",
 		"enableAPI": true,
+		"enableRSSI": false,
 		"publicAPI": false,
 		"createVDev": true,
 		"config": "config",
@@ -38,6 +39,10 @@
 			"enableAPI": {
 				"type": "boolean",
 				"default": true
+			},
+			"enableRSSI": {
+				"type": "boolean",
+				"default": false
 			},
 			"publicAPI": {
 				"type": "boolean",
@@ -75,6 +80,11 @@
 				"type": "checkbox",
 				"rightLabel": "__rl_enableAPI__",
 				"helper": "__h_enableAPI__"
+			},
+			"enableRSSI": {
+				"type": "checkbox",
+				"rightLabel": "__rl_enableRSSI__",
+				"helper": "__h_enableRSSI__"
 			},
 			"publicAPI": {
 				"type": "checkbox",

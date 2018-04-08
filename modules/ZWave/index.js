@@ -497,7 +497,8 @@ ZWave.prototype.CommunicationLogger = function() {
 	this.zway.controller.data.outgoingPacket.bind(outH);
 
 	// check if controller supports background rssi
-	if (this.zway.controller.data.capabilities.value.indexOf(59) > -1) {
+	if (this.zway.controller.data.capabilities.value.indexOf(59) > -1 
+		&& this.config.enableRSSI !== false) {
 		// set timer that will request RSSI stats every 30 s
 		this.rssiTimer = setInterval(function() {
 			try {
